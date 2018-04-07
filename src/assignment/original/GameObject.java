@@ -6,7 +6,7 @@ import javafx.scene.Node;
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)
  */
-public class GameObject {
+public abstract class GameObject {
 
     private Node view;
     private Point2D velocity = new Point2D(0, 0);

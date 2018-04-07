@@ -15,17 +15,22 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.Node;
 
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)
  */
 public class AsteroidsApp extends Application {
-
+    // Config variables.
+    final private int numberOfEnemies = 40;
+    
     private Pane root;
-
+    
+    // Array of enemies & bullets.
     private List<GameObject> bullets = new ArrayList<>();
     private List<GameObject> enemies = new ArrayList<>();
-
+    
+    // Player object.
     private GameObject player;
 
     private Parent createContent() {
@@ -82,21 +87,47 @@ public class AsteroidsApp extends Application {
         enemies.forEach(GameObject::update);
 
         player.update();
-
-        if (Math.random() < 0.02) {
-            addEnemy(new Enemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+        
+        // Random enemy spawning.
+        // + Add ememy limits on the view. 
+        // To-do : - Edit spawn border.
+        if (enemies.size() < numberOfEnemies) {
+            EnemySpawn();
         }
     }
-
+    
+    // Enemy spawning
+    private void EnemySpawn() {
+        double enemy_rand = Math.random();
+        if (enemy_rand < 0.01) {
+            addEnemy(new TrackingEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+        }else if(enemy_rand > 0.01 && enemy_rand < 0.02) {
+            addEnemy(new NormalEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+        }
+    }
+    // Classes
     private static class Player extends GameObject {
         Player() {
             super(new Rectangle(40, 20, Color.BLUE));
         }
     }
 
-    private static class Enemy extends GameObject {
-        Enemy() {
-            super(new Circle(15, 15, 15, Color.RED));
+    private abstract class Enemy extends GameObject {
+        public Enemy(Node view) {
+            super(view);
+        }
+    }
+    
+    private class NormalEnemy extends Enemy {
+        NormalEnemy() {
+            super(new Circle(15,15,15, Color.RED));
+        }
+    }
+    
+    // ** Need to add normal enemy (static) and moving enemy. (tracking player preferred.)
+    private class TrackingEnemy extends Enemy {
+        TrackingEnemy() {
+            super(new Circle(10,10,10, Color.RED));
         }
     }
 
@@ -109,6 +140,7 @@ public class AsteroidsApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(createContent()));
+        // Player Input. & bullet shooting.
         stage.getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.LEFT) {
                 player.rotateLeft();
