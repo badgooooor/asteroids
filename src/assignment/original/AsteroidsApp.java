@@ -22,7 +22,7 @@ import javafx.scene.Node;
  */
 public class AsteroidsApp extends Application {
     // Config variables.
-    final private int numberOfEnemies = 40;
+    final private int numberOfEnemies = 50;
     
     private Pane root;
     
@@ -105,6 +105,7 @@ public class AsteroidsApp extends Application {
             addEnemy(new NormalEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
         }
     }
+    
     // Classes
     private static class Player extends GameObject {
         Player() {
@@ -124,7 +125,8 @@ public class AsteroidsApp extends Application {
         }
     }
     
-    // ** Need to add normal enemy (static) and moving enemy. (tracking player preferred.)
+    // ** Moving enemy.
+    // Todo : making enemy that tracking player.
     private class TrackingEnemy extends Enemy {
         TrackingEnemy() {
             super(new Circle(10,10,10, Color.RED));
