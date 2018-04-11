@@ -28,7 +28,6 @@ public class AsteroidsApp extends Application {
     
     // Player object.
     private GameObject player;
-    private GameObject tracker;
     private Parent createContent() {
         root = new Pane();
         root.setPrefSize(600, 600);
@@ -36,11 +35,7 @@ public class AsteroidsApp extends Application {
         player = new Player();
         player.setVelocity(new Point2D(1, 0));
         addGameObject(player, 300, 300);
-        
-        // Testing enemy.
-        tracker = new TrackingEnemy();
-        addGameObject(tracker, 400, 500);
-        
+              
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -85,17 +80,18 @@ public class AsteroidsApp extends Application {
 
         bullets.forEach(GameObject::update);
         enemies.forEach(GameObject::update);
-
-        player.update();
         
-        // Debug.
-        tracker.track(player);
+        player.update();
+        for(GameObject e: enemies) {
+            if(e instanceof TrackingEnemy) {
+                e.track(player);
+            }
+        }
+       
         // Random enemy spawning.
-        // + Add ememy limits on the view. 
-        // To-do : - Edit spawn border.
-//        if (enemies.size() < numberOfEnemies) {
-//            EnemySpawn();
-//        }
+        if (enemies.size() < numberOfEnemies) {
+            EnemySpawn();
+        }
         
     }
     
@@ -108,11 +104,8 @@ public class AsteroidsApp extends Application {
             addEnemy(new NormalEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
         }
     }
-    // Enemy border-spawning debug.
-    /*
-    calculate : Math.rand.range(0.03 * root.getPrefWidth()) and Math.rand.range(0.97 * root.getPrefHeight())
-    */
-
+    
+    // Scene setting.
     @Override
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(createContent()));
@@ -130,7 +123,8 @@ public class AsteroidsApp extends Application {
         });
         stage.show();
     }
-
+    
+    // Launching application.
     public static void main(String[] args) {
         launch(args);
     }
