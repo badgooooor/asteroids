@@ -8,14 +8,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.Node;
 
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)
@@ -32,7 +28,7 @@ public class AsteroidsApp extends Application {
     
     // Player object.
     private GameObject player;
-
+    private GameObject tracker;
     private Parent createContent() {
         root = new Pane();
         root.setPrefSize(600, 600);
@@ -40,7 +36,11 @@ public class AsteroidsApp extends Application {
         player = new Player();
         player.setVelocity(new Point2D(1, 0));
         addGameObject(player, 300, 300);
-
+        
+        // Testing enemy.
+        tracker = new TrackingEnemy();
+        addGameObject(tracker, 400, 500);
+        
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -88,12 +88,15 @@ public class AsteroidsApp extends Application {
 
         player.update();
         
+        // Debug.
+        tracker.track(player);
         // Random enemy spawning.
         // + Add ememy limits on the view. 
         // To-do : - Edit spawn border.
-        if (enemies.size() < numberOfEnemies) {
-            EnemySpawn();
-        }
+//        if (enemies.size() < numberOfEnemies) {
+//            EnemySpawn();
+//        }
+        
     }
     
     // Enemy spawning
@@ -105,39 +108,10 @@ public class AsteroidsApp extends Application {
             addEnemy(new NormalEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
         }
     }
-    
-    // Classes
-    private static class Player extends GameObject {
-        Player() {
-            super(new Rectangle(40, 20, Color.BLUE));
-        }
-    }
-
-    private abstract class Enemy extends GameObject {
-        public Enemy(Node view) {
-            super(view);
-        }
-    }
-    
-    private class NormalEnemy extends Enemy {
-        NormalEnemy() {
-            super(new Circle(15,15,15, Color.RED));
-        }
-    }
-    
-    // ** Moving enemy.
-    // Todo : making enemy that tracking player.
-    private class TrackingEnemy extends Enemy {
-        TrackingEnemy() {
-            super(new Circle(10,10,10, Color.RED));
-        }
-    }
-
-    private static class Bullet extends GameObject {
-        Bullet() {
-            super(new Circle(5, 5, 5, Color.BROWN));
-        }
-    }
+    // Enemy border-spawning debug.
+    /*
+    calculate : Math.rand.range(0.03 * root.getPrefWidth()) and Math.rand.range(0.97 * root.getPrefHeight())
+    */
 
     @Override
     public void start(Stage stage) throws Exception {

@@ -25,7 +25,7 @@ public abstract class GameObject {
     public void setVelocity(Point2D velocity) {
         this.velocity = velocity;
     }
-
+    
     public Point2D getVelocity() {
         return velocity;
     }
@@ -33,7 +33,15 @@ public abstract class GameObject {
     public Node getView() {
         return view;
     }
-
+    
+    // Debug function for checking position.
+    public void getPosition() {
+           
+            double x = Math.round(this.getView().getTranslateX());
+            double y = Math.round(this.getView().getTranslateY());
+            System.out.println(this.getView().getLocalToSceneTransform());
+    }
+    
     public boolean isAlive() {
         return alive;
     }
@@ -63,4 +71,9 @@ public abstract class GameObject {
     public boolean isColliding(GameObject other) {
         return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
     }
+
+    void track(GameObject player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
+
