@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class AsteroidsApp extends Application {
     // Config variables.
-    final private int numberOfEnemies = 50;
+    final private int numberOfEnemies = 50;     // Number of enemies on-screen.
     
     private Pane root;
     
@@ -29,9 +29,11 @@ public class AsteroidsApp extends Application {
     // Player object.
     private GameObject player;
     private Parent createContent() {
+        // Set up pane & size.
         root = new Pane();
         root.setPrefSize(600, 600);
-
+        
+        // Initialize player.
         player = new Player();
         player.setVelocity(new Point2D(1, 0));
         addGameObject(player, 300, 300);
@@ -46,7 +48,8 @@ public class AsteroidsApp extends Application {
 
         return root;
     }
-
+    
+    // Adding instances methods.
     private void addBullet(GameObject bullet, double x, double y) {
         bullets.add(bullet);
         addGameObject(bullet, x, y);
@@ -62,8 +65,10 @@ public class AsteroidsApp extends Application {
         object.getView().setTranslateY(y);
         root.getChildren().add(object.getView());
     }
-
+    
+    // Updating loop.
     private void onUpdate() {
+        // Check collision between bullets & enemies.
         for (GameObject bullet : bullets) {
             for (GameObject enemy : enemies) {
                 if (bullet.isColliding(enemy)) {
@@ -74,14 +79,17 @@ public class AsteroidsApp extends Application {
                 }
             }
         }
-
+        
+        // Remove bullets & enemies.
         bullets.removeIf(GameObject::isDead);
         enemies.removeIf(GameObject::isDead);
-
+        
+        // Update each instances.
         bullets.forEach(GameObject::update);
         enemies.forEach(GameObject::update);
-        
         player.update();
+        
+        // Tracking enemies chasing player.
         for(GameObject e: enemies) {
             if(e instanceof TrackingEnemy) {
                 e.track(player);

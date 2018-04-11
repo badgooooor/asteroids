@@ -22,11 +22,10 @@ import javafx.util.Duration;
 /**
  *
  * @author borbier
- * Bug need to fixed : - Random chasing position.
+ * Tracker == The chasing invaders.
  */
-class TrackingEnemy extends Enemy {
-    private double randomDistance;    
-    private Random rand;
+class TrackingEnemy extends Enemy {   
+    private Random rand;    
     // Constructor.
     TrackingEnemy() {
         super(new Circle(10, 10, 10, Color.RED));
@@ -46,11 +45,13 @@ class TrackingEnemy extends Enemy {
         double playerX = player.getView().getTranslateX();
         double playerY = player.getView().getTranslateY();
 
-        // .
+        // Get difference between enemy and player.
         double dx = this.getView().getTranslateX() - playerX;
         double dy = this.getView().getTranslateY() - playerY;
         
-        // Creating
+        // Create MoveTo and LineTo for creating path.
+        // MoveTo --> Destination
+        // LineTo --> Line from enemy to target.
         MoveTo moveTo = new MoveTo();
         LineTo lineTo = new LineTo();
         
@@ -60,10 +61,11 @@ class TrackingEnemy extends Enemy {
         lineTo.setX(dx + random());
         lineTo.setY(dy + random());
         
+        // Add element to path.
         path.getElements().add(moveTo);
         path.getElements().add(lineTo);
         
-        // Set transistion
+        // Set transistion & let the tracker rocks.
         PathTransition transition = new PathTransition();
         transition.setDuration(Duration.seconds(30.0));
         transition.setDelay(Duration.seconds(3.0));
@@ -76,6 +78,7 @@ class TrackingEnemy extends Enemy {
         transition.play();
     }
     
+    // Random function.
     public double random() {
         return rand.nextInt(30);
     }

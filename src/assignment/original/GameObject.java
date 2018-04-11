@@ -5,6 +5,7 @@ import javafx.scene.Node;
 
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)
+ * This is model object for in-game object.
  */
 public abstract class GameObject {
 
@@ -75,5 +76,6 @@ public abstract class GameObject {
     void track(GameObject player) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }
 
