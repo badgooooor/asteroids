@@ -5,8 +5,9 @@ import javafx.scene.Node;
 
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)
+ * This is model object for in-game object.
  */
-public class GameObject {
+public abstract class GameObject {
 
     private Node view;
     private Point2D velocity = new Point2D(0, 0);
@@ -25,7 +26,7 @@ public class GameObject {
     public void setVelocity(Point2D velocity) {
         this.velocity = velocity;
     }
-
+    
     public Point2D getVelocity() {
         return velocity;
     }
@@ -33,7 +34,15 @@ public class GameObject {
     public Node getView() {
         return view;
     }
-
+    
+    // Debug function for checking position.
+    public void getPosition() {
+           
+            double x = Math.round(this.getView().getTranslateX());
+            double y = Math.round(this.getView().getTranslateY());
+            System.out.println(this.getView().getLocalToSceneTransform());
+    }
+    
     public boolean isAlive() {
         return alive;
     }
@@ -63,4 +72,10 @@ public class GameObject {
     public boolean isColliding(GameObject other) {
         return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
     }
+
+    void track(GameObject player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
+
