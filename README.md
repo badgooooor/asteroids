@@ -1,19 +1,15 @@
 # asteroids
 Object-Oriented Programming -- Assignment 2017
 
-# Objectives
-1. Analyse source code's structure (including classes and its relationship) and represent as UML.
-2. Adding the features to original source code.
+# Branch Objectives
+- Create enemy that can chase player.
 
-# Due date
-26 MAR 2018 - 27 APR 2018
+# Current Progress
+- Created enemy that can really track player movement.
+* Sorry for making a bit wrong branch name.
 
-# Original source code.
-JavaFX Game : Asteroid
-Source : https://github.com/AlmasB/FXTutorials/tree/master/src/com/almasb/asteroids
+# Minor Adjustment in this branch.
+- Limiting the enemies on-screen.
 
-# Members
-- Yuttakhan Baingen
-- Pichamol Phothong
-- Jirawat Kaewkulrabut
-Computer Engineering, KMITL.
+# Problems/ Bugs.
+- "stacking" tracking enemy.
