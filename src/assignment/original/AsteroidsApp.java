@@ -8,9 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -20,22 +17,27 @@ import java.util.List;
  * @author Almas Baimagambetov (almaslvl@gmail.com)
  */
 public class AsteroidsApp extends Application {
-
+    // Config variables.
+    final private int numberOfEnemies = 50;     // Number of enemies on-screen.
+    
     private Pane root;
-
+    
+    // Array of enemies & bullets.
     private List<GameObject> bullets = new ArrayList<>();
     private List<GameObject> enemies = new ArrayList<>();
-
+    
+    // Player object.
     private GameObject player;
-
     private Parent createContent() {
+        // Set up pane & size.
         root = new Pane();
         root.setPrefSize(600, 600);
-
+        
+        // Initialize player.
         player = new Player();
         player.setVelocity(new Point2D(1, 0));
         addGameObject(player, 300, 300);
-
+              
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -46,7 +48,8 @@ public class AsteroidsApp extends Application {
 
         return root;
     }
-
+    
+    // Adding instances methods.
     private void addBullet(GameObject bullet, double x, double y) {
         bullets.add(bullet);
         addGameObject(bullet, x, y);
@@ -62,8 +65,10 @@ public class AsteroidsApp extends Application {
         object.getView().setTranslateY(y);
         root.getChildren().add(object.getView());
     }
-
+    
+    // Updating loop.
     private void onUpdate() {
+        // Check collision between bullets & enemies.
         for (GameObject bullet : bullets) {
             for (GameObject enemy : enemies) {
                 if (bullet.isColliding(enemy)) {
@@ -74,41 +79,45 @@ public class AsteroidsApp extends Application {
                 }
             }
         }
-
+        
+        // Remove bullets & enemies.
         bullets.removeIf(GameObject::isDead);
         enemies.removeIf(GameObject::isDead);
-
+        
+        // Update each instances.
         bullets.forEach(GameObject::update);
         enemies.forEach(GameObject::update);
-
         player.update();
-
-        if (Math.random() < 0.02) {
-            addEnemy(new Enemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+        
+        // Tracking enemies chasing player.
+        for(GameObject e: enemies) {
+            if(e instanceof TrackingEnemy) {
+                e.track(player);
+            }
+        }
+       
+        // Random enemy spawning.
+        if (enemies.size() < numberOfEnemies) {
+            EnemySpawn();
+        }
+        
+    }
+    
+    // Enemy spawning
+    private void EnemySpawn() {
+        double enemy_rand = Math.random();
+        if (enemy_rand < 0.01) {
+            addEnemy(new TrackingEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+        }else if(enemy_rand > 0.01 && enemy_rand < 0.02) {
+            addEnemy(new NormalEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
         }
     }
-
-    private static class Player extends GameObject {
-        Player() {
-            super(new Rectangle(40, 20, Color.BLUE));
-        }
-    }
-
-    private static class Enemy extends GameObject {
-        Enemy() {
-            super(new Circle(15, 15, 15, Color.RED));
-        }
-    }
-
-    private static class Bullet extends GameObject {
-        Bullet() {
-            super(new Circle(5, 5, 5, Color.BROWN));
-        }
-    }
-
+    
+    // Scene setting.
     @Override
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(createContent()));
+        // Player Input. & bullet shooting.
         stage.getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.LEFT) {
                 player.rotateLeft();
@@ -122,7 +131,8 @@ public class AsteroidsApp extends Application {
         });
         stage.show();
     }
-
+    
+    // Launching application.
     public static void main(String[] args) {
         launch(args);
     }
