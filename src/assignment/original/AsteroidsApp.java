@@ -12,6 +12,13 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)
@@ -21,6 +28,9 @@ public class AsteroidsApp extends Application {
     final private int numberOfEnemies = 50;     // Number of enemies on-screen.
     
     private Pane root;
+    public static int score;
+    VBox vb = new VBox();
+    Text tScore = new Text();
     
     // Array of enemies & bullets.
     private List<GameObject> bullets = new ArrayList<>();
@@ -37,6 +47,8 @@ public class AsteroidsApp extends Application {
         player = new Player();
         player.setVelocity(new Point2D(1, 0));
         addGameObject(player, 300, 300);
+        
+        vb.getChildren().addAll(tScore);
               
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -74,6 +86,7 @@ public class AsteroidsApp extends Application {
                 if (bullet.isColliding(enemy)) {
                     bullet.setAlive(false);
                     enemy.setAlive(false);
+                    score+=100;
 
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());
                 }
@@ -100,6 +113,16 @@ public class AsteroidsApp extends Application {
         if (enemies.size() < numberOfEnemies) {
             EnemySpawn();
         }
+        
+      tScore.setText("score : "+score );
+      tScore.setFill(Color.RED);
+      tScore.setFont(Font.font(null, FontWeight.BOLD, 24));
+        
+      tScore.setX(100);
+      tScore.setY(100);
+      
+      tScore.setTranslateX(470);
+      tScore.setTranslateY(30);
         
     }
     
@@ -129,6 +152,7 @@ public class AsteroidsApp extends Application {
                 addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
             }
         });
+        root.getChildren().add(vb);
         stage.show();
     }
     
