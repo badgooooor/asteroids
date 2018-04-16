@@ -33,11 +33,8 @@ public class AsteroidsApp extends Application {
     private List<GameObject> enemies = new ArrayList<>();
     
     public static int score;
-    private Score playerScore;
     
-    VBox vb = new VBox();
-    Text tScore = new Text();
-    
+    private ScoreHUD playerScore;
     // Player object.
     private GameObject player;
     private Parent createContent() {
@@ -50,9 +47,10 @@ public class AsteroidsApp extends Application {
         player.setVelocity(new Point2D(1, 0));
         addGameObject(player, 300, 300);
         
-        playerScore = new Score();
+        // Score counter.
+        playerScore = new ScoreHUD();
+        playerScore.show(root);
         
-        vb.getChildren().addAll(tScore);
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -89,7 +87,7 @@ public class AsteroidsApp extends Application {
                 if (bullet.isColliding(enemy)) {
                     bullet.setAlive(false);
                     enemy.setAlive(false);
-                    playerScore.addScore(10);
+                    playerScore.updateScore(10);
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());
                 }
             }
@@ -116,15 +114,6 @@ public class AsteroidsApp extends Application {
             EnemySpawn();
         }
         
-        tScore.setText("Score : " + playerScore.getScore());
-        tScore.setFill(Color.RED);
-        tScore.setFont(Font.font(null, FontWeight.BOLD, 24));
-        
-        tScore.setX(100);
-        tScore.setY(100);
-        
-        tScore.setTranslateX(470);
-        tScore.setTranslateY(30);
     }
     
     // Enemy spawning
@@ -153,7 +142,7 @@ public class AsteroidsApp extends Application {
                 addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
             }
         });
-        root.getChildren().add(vb);
+
         stage.show();
     }
     

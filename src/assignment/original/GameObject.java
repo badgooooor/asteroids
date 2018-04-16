@@ -72,10 +72,13 @@ public abstract class GameObject {
     public boolean isColliding(GameObject other) {
         return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
     }
-
+    
+    
+    // Currently a problem here.
     void track(GameObject player) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 
 }
 
