@@ -13,6 +13,12 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)
  */
@@ -26,6 +32,9 @@ public class AsteroidsApp extends Application {
     private List<GameObject> bullets = new ArrayList<>();
     private List<GameObject> enemies = new ArrayList<>();
     
+    public static int score;
+    
+    private ScoreHUD playerScore;
     // Player object.
     private GameObject player;
     private Parent createContent() {
@@ -37,7 +46,11 @@ public class AsteroidsApp extends Application {
         player = new Player();
         player.setVelocity(new Point2D(1, 0));
         addGameObject(player, 300, 300);
-              
+        
+        // Score counter.
+        playerScore = new ScoreHUD();
+        playerScore.show(root);
+        
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -74,7 +87,7 @@ public class AsteroidsApp extends Application {
                 if (bullet.isColliding(enemy)) {
                     bullet.setAlive(false);
                     enemy.setAlive(false);
-
+                    playerScore.updateScore(10);
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());
                 }
             }
@@ -129,6 +142,7 @@ public class AsteroidsApp extends Application {
                 addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
             }
         });
+
         stage.show();
     }
     
