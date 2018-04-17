@@ -9,26 +9,30 @@ package assignment.original;
  *
  * @author borbier
  */
-public class Health {
+public class Health implements ValueInterface{
     private int health;
-    private final int maxHealth = 3;
-    public Health() {
+    private final int maxHealth;
+    public Health(int maxHealth) {
+        this.health = maxHealth;
+        this.maxHealth = maxHealth;
     }
 
-    public Health(int health) {
-        this.health = health;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        if (health <= maxHealth && health >= 0) {
-        this.health = health;
+    @Override
+    public void addValue(double added) {
+        if(this.health >= maxHealth) {
+            this.health = (int)(this.health + added);
         }
-        System.out.println("set health"+health);
     }
-    
-    
+
+    @Override
+    public void subtractValue(double subtracted) {
+        if(this.health <= 0) {
+            this.health = (int)(this.health - subtracted);
+        }
+    }
+
+    @Override
+    public double getValue() {
+        return this.health;
+    }
 }
