@@ -9,7 +9,7 @@ package assignment.original;
  *
  * @author borbier
  */
-public class Score {
+public class Score implements ValueInterface{
     private double score;
 
     public Score() {
@@ -17,15 +17,18 @@ public class Score {
     }
     
     // Add / Subtract score.
-    public void addScore(double addedScore) {
-        this.score = this.score + addedScore;
+    @Override
+    public void addValue(double added) {
+        this.score = this.score + added;
     }
-    
-    public void subtractScore(double subtractScore) {
-        this.score = this.score - subtractScore;
+
+    @Override
+    public void subtractValue(double subtracted) {
+        this.score = this.score - subtracted;
     }
-    
-    public double getScore() {
+
+    @Override
+    public double getValue() {
         return score;
     }
 }

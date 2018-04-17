@@ -29,8 +29,8 @@ public class ScoreHUD {
         vb.getChildren().add(tscore);
         
         // Set up
-        tscore.setText("Score : " + (int)(score.getScore()));
-        tscore.setFill(Color.RED);
+        tscore.setText("Score : " + (int)(score.getValue()));
+        tscore.setFill(Color.BLACK);
         tscore.setFont(Font.font(null, FontWeight.BOLD, 24));
         
         tscore.setX(100);
@@ -43,24 +43,14 @@ public class ScoreHUD {
     
     public void updateScore(int scoreChange) {
         if(scoreChange >= 0) {
-            score.addScore(scoreChange);
+            score.addValue(scoreChange);
         } else {
-            score.subtractScore(scoreChange);
+            score.subtractValue(Math.abs(scoreChange));
         }
-        tscore.setText("Score : " + (int)(score.getScore()));
+        tscore.setText("Score : " + (int)(score.getValue()));
     }
     
     public void show(Pane screen) {
         screen.getChildren().add(vb);
     }
-    
-    public Score getScore() {
-        return score;
-    }
-
-    public void setScore(Score score) {
-        this.score = score;
-    }
-    
-    
 }

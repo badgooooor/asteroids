@@ -33,7 +33,6 @@ class TrackingEnemy extends Enemy {
     }
     
     // Tracking method.
-    @Override
     public void track(GameObject player) {
         // Create path.
         Path path = new Path();
