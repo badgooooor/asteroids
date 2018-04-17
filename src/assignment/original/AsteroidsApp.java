@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
 public class AsteroidsApp extends Application {
     // Config variables.
     final private int numberOfEnemies = 50;     // Number of enemies on-screen.
+    final private int playerMaxHealth = 3;
     
     private Pane root;
     
@@ -35,6 +36,8 @@ public class AsteroidsApp extends Application {
     public static int score;
     
     private ScoreHUD playerScore;
+    private HealthHUD playerHealth;
+    
     // Player object.
     private GameObject player;
     private Parent createContent() {
@@ -50,6 +53,10 @@ public class AsteroidsApp extends Application {
         // Score counter.
         playerScore = new ScoreHUD();
         playerScore.show(root);
+        
+        // Health.
+        playerHealth = new HealthHUD(playerMaxHealth);
+        playerHealth.show(root);
         
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -90,6 +97,16 @@ public class AsteroidsApp extends Application {
                     playerScore.updateScore(10);
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());
                 }
+            }
+        }
+        
+        // Check collision between enemies & player.
+        // Bug need to fix : health not decreasing.
+        for (GameObject enemy: enemies) {
+            if (player.isColliding(enemy)) {
+                enemy.setAlive(false);
+                playerHealth.updateHealth(-1);
+                root.getChildren().remove(enemy.getView());
             }
         }
         
