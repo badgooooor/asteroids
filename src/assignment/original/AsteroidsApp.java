@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
 public class AsteroidsApp extends Application {
     // Config variables.
     final private int numberOfEnemies = 50;     // Number of enemies on-screen.
+    final private int playerMaxHealth = 3;
     
     private Pane root;
     
@@ -35,6 +36,8 @@ public class AsteroidsApp extends Application {
     public static int score;
     
     private ScoreHUD playerScore;
+    private HealthHUD playerHealth;
+    
     // Player object.
     private GameObject player;
     private Parent createContent() {
@@ -50,6 +53,10 @@ public class AsteroidsApp extends Application {
         // Score counter.
         playerScore = new ScoreHUD();
         playerScore.show(root);
+        
+        // Health.
+        playerHealth = new HealthHUD(playerMaxHealth);
+        playerHealth.show(root);
         
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -87,12 +94,33 @@ public class AsteroidsApp extends Application {
                 if (bullet.isColliding(enemy)) {
                     bullet.setAlive(false);
                     enemy.setAlive(false);
-                    playerScore.updateScore(10);
+                    
+                    // Scoring.
+                    if(enemy instanceof TrackingEnemy) {
+                        playerScore.updateScore(30);
+                    } else {
+                        playerScore.updateScore(10);
+                    }
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());
                 }
             }
         }
         
+        // Check collision between enemies & player.
+        // Bug need to fix : health not decreasing.
+        for (GameObject enemy: enemies) {
+            if (player.isColliding(enemy)) {
+                enemy.setAlive(false);
+                playerHealth.updateHealth(-1);
+                root.getChildren().remove(enemy.getView());
+            }
+        }
+        
+        // Death condition.
+        if(playerHealth.health.getValue() == 0) {
+            player.setAlive(false);
+            root.getChildren().remove(player.getView());
+        }
         // Remove bullets & enemies.
         bullets.removeIf(GameObject::isDead);
         enemies.removeIf(GameObject::isDead);

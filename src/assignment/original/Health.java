@@ -19,14 +19,14 @@ public class Health implements ValueInterface{
 
     @Override
     public void addValue(double added) {
-        if(this.health >= maxHealth) {
+        if(this.health <= maxHealth) {
             this.health = (int)(this.health + added);
         }
     }
 
     @Override
     public void subtractValue(double subtracted) {
-        if(this.health <= 0) {
+        if (this.health > 0) {
             this.health = (int)(this.health - subtracted);
         }
     }

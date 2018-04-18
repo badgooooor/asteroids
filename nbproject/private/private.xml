@@ -3,8 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Project/asteroids/src/assignment/original/Score.java</file>
-            <file>file:/D:/Project/asteroids/src/assignment/original/ScoreHUD.java</file>
+            <file>file:/D:/Project/asteroids/src/assignment/original/HealthHUD.java</file>
+            <file>file:/D:/Project/asteroids/src/assignment/original/Health.java</file>
             <file>file:/D:/Project/asteroids/src/assignment/original/AsteroidsApp.java</file>
         </group>
     </open-files>
