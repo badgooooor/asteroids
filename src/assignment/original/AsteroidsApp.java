@@ -94,7 +94,13 @@ public class AsteroidsApp extends Application {
                 if (bullet.isColliding(enemy)) {
                     bullet.setAlive(false);
                     enemy.setAlive(false);
-                    playerScore.updateScore(10);
+                    
+                    // Scoring.
+                    if(enemy instanceof TrackingEnemy) {
+                        playerScore.updateScore(30);
+                    } else {
+                        playerScore.updateScore(10);
+                    }
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());
                 }
             }
@@ -110,6 +116,11 @@ public class AsteroidsApp extends Application {
             }
         }
         
+        // Death condition.
+        if(playerHealth.health.getValue() == 0) {
+            player.setAlive(false);
+            root.getChildren().remove(player.getView());
+        }
         // Remove bullets & enemies.
         bullets.removeIf(GameObject::isDead);
         enemies.removeIf(GameObject::isDead);

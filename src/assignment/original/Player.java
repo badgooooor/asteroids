@@ -13,20 +13,7 @@ import javafx.scene.shape.Rectangle;
  * @author borbier
  */
 class Player extends GameObject {
-    Health playerHealth;
-    Score playerScore;
-    
     Player() {
         super(new Rectangle(40, 20, Color.BLUE));
-        playerScore = new Score();
-    }
-
-    public Health getPlayerHealth() {
-        return playerHealth;
-    }
-    
-    public Score getPlayerScore() {
-        return playerScore;
-    }
-    
+    } 
 }
