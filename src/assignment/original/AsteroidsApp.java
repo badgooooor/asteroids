@@ -86,7 +86,19 @@ public class AsteroidsApp extends Application {
         root.getChildren().add(object.getView());
     }
     
-    // Updating loop.
+    // Enemy spawning
+    private void EnemySpawn() {
+        double enemy_rand = Math.random();
+        if (enemy_rand < 0.01) {
+            addEnemy(new TrackingEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+        }else if(enemy_rand > 0.01 && enemy_rand < 0.02) {
+            addEnemy(new NormalEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+        }
+    }
+    
+    
+    // STATE METHOD
+    // State : IN-GAME Update
     private void onUpdate() {
         // Check collision between bullets & enemies.
         for (GameObject bullet : bullets) {
@@ -97,9 +109,9 @@ public class AsteroidsApp extends Application {
                     
                     // Scoring.
                     if(enemy instanceof TrackingEnemy) {
-                        playerScore.updateScore(30);
+                        playerScore.updateValue(15);
                     } else {
-                        playerScore.updateScore(10);
+                        playerScore.updateValue(10);
                     }
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());
                 }
@@ -111,7 +123,7 @@ public class AsteroidsApp extends Application {
         for (GameObject enemy: enemies) {
             if (player.isColliding(enemy)) {
                 enemy.setAlive(false);
-                playerHealth.updateHealth(-1);
+                playerHealth.updateValue(-1);
                 root.getChildren().remove(enemy.getView());
             }
         }
@@ -121,6 +133,7 @@ public class AsteroidsApp extends Application {
             player.setAlive(false);
             root.getChildren().remove(player.getView());
         }
+        
         // Remove bullets & enemies.
         bullets.removeIf(GameObject::isDead);
         enemies.removeIf(GameObject::isDead);
@@ -144,15 +157,17 @@ public class AsteroidsApp extends Application {
         
     }
     
-    // Enemy spawning
-    private void EnemySpawn() {
-        double enemy_rand = Math.random();
-        if (enemy_rand < 0.01) {
-            addEnemy(new TrackingEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
-        }else if(enemy_rand > 0.01 && enemy_rand < 0.02) {
-            addEnemy(new NormalEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+    // State : Reset.
+    public void reset() {
+        for (GameObject enemy : enemies) {
+            root.getChildren().remove(enemy.getView());
         }
+        player.setAlive(true);
+        playerHealth.reset();
+        playerScore.reset();
+        root.getChildren().add(player.getView());
     }
+    
     
     // Scene setting.
     @Override
@@ -168,6 +183,9 @@ public class AsteroidsApp extends Application {
                 Bullet bullet = new Bullet();
                 bullet.setVelocity(player.getVelocity().normalize().multiply(5));
                 addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
+            // Clear screen and restart the game.    
+            } else if (e.getCode() == KeyCode.R && player.isDead()) {
+                reset();
             }
         });
 

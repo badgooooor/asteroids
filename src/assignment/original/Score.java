@@ -31,4 +31,9 @@ public class Score implements ValueInterface{
     public double getValue() {
         return score;
     }
+    
+    @Override
+    public void reset() {
+        this.score = 0;
+    }
 }

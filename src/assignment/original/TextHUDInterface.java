@@ -5,13 +5,15 @@
  */
 package assignment.original;
 
+import javafx.scene.layout.Pane;
+
 /**
  *
  * @author borbier
  */
-public interface ValueInterface {
-    public void addValue(double added);
-    public void subtractValue(double subtracted);
-    public double getValue();
+public interface TextHUDInterface {
+    public void updateValue(int valueChange);
+    public void showValue();
+    public void show(Pane screen);
     public void reset();
 }

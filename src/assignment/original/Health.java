@@ -35,4 +35,9 @@ public class Health implements ValueInterface{
     public double getValue() {
         return this.health;
     }
+    
+    @Override
+    public void reset() {
+        this.health = 3;
+    }
 }

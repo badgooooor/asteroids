@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
  *
  * @author borbier
  */
-public class HealthHUD {
+public class HealthHUD implements TextHUDInterface {
     Health health;
     Text text;
     VBox vb;
@@ -41,16 +41,29 @@ public class HealthHUD {
         text.setTranslateY(30);
     }
     
-    public void updateHealth(int healthChange) {
-        if(healthChange >= 0) {
-            health.addValue(healthChange);
+    @Override
+    public void updateValue(int valueChange) {
+        if(valueChange >= 0) {
+            health.addValue(valueChange);
         } else {
-            health.subtractValue(Math.abs(healthChange));
+            health.subtractValue(Math.abs(valueChange));
         }
+        showValue();
+    }
+    
+    @Override
+    public void showValue() {
         text.setText("Health : " + (int)(health.getValue()));
     }
     
+    @Override
     public void show(Pane screen) {
         screen.getChildren().add(vb);
+    }
+    
+    @Override
+    public void reset() {
+        health.reset();
+        this.showValue();
     }
 }

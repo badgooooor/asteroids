@@ -16,11 +16,13 @@ import javafx.scene.text.Text;
  *
  * @author borbier
  */
-public class ScoreHUD {
+public class ScoreHUD implements TextHUDInterface{
+    // Initialize variables.
     Score score;
     Text tscore;
     VBox vb;
-
+    
+    // Constructor.
     public ScoreHUD() {
         tscore = new Text();
         vb = new VBox();
@@ -41,16 +43,30 @@ public class ScoreHUD {
         
     }
     
-    public void updateScore(int scoreChange) {
-        if(scoreChange >= 0) {
-            score.addValue(scoreChange);
+    // Override from HUD interface class.
+    @Override
+    public void updateValue(int valueChange) {
+        if(valueChange >= 0) {
+            score.addValue(valueChange);
         } else {
-            score.subtractValue(Math.abs(scoreChange));
+            score.subtractValue(Math.abs(valueChange));
         }
+        showValue();
+    }
+    
+    @Override
+    public void showValue() {
         tscore.setText("Score : " + (int)(score.getValue()));
     }
     
+    @Override
     public void show(Pane screen) {
         screen.getChildren().add(vb);
+    }
+    
+    @Override
+    public void reset() {
+        score.reset();
+        this.showValue();
     }
 }
