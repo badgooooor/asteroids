@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package assignment.original;
+package asteroids.hud;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -18,9 +18,9 @@ import javafx.scene.text.Text;
  */
 public class ScoreHUD implements TextHUDInterface{
     // Initialize variables.
-    Score score;
-    Text tscore;
-    VBox vb;
+    private Score score;
+    private Text tscore;
+    private VBox vb;
     
     // Constructor.
     public ScoreHUD() {
@@ -45,17 +45,17 @@ public class ScoreHUD implements TextHUDInterface{
     
     // Override from HUD interface class.
     @Override
-    public void updateValue(int valueChange) {
+    public void updateHUD(int valueChange) {
         if(valueChange >= 0) {
             score.addValue(valueChange);
         } else {
             score.subtractValue(Math.abs(valueChange));
         }
-        showValue();
+        showHUD();
     }
     
     @Override
-    public void showValue() {
+    public void showHUD() {
         tscore.setText("Score : " + (int)(score.getValue()));
     }
     
@@ -67,6 +67,11 @@ public class ScoreHUD implements TextHUDInterface{
     @Override
     public void reset() {
         score.reset();
-        this.showValue();
+        this.showHUD();
+    }
+    
+    @Override
+    public double getValue() {
+        return score.getValue();
     }
 }

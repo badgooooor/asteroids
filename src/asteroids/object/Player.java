@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package assignment.original;
+package asteroids.object;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -12,8 +12,8 @@ import javafx.scene.shape.Rectangle;
  *
  * @author borbier
  */
-class Player extends GameObject {
-    Player() {
+public class Player extends GameObject {
+    public Player() {
         super(new Rectangle(40, 20, Color.BLUE));
     } 
 }

@@ -1,5 +1,7 @@
-package assignment.original;
+package asteroids.main;
 
+import asteroids.hud.*;
+import asteroids.object.*;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -24,8 +26,8 @@ import javafx.scene.text.Text;
  */
 public class AsteroidsApp extends Application {
     // Config variables.
-    final private int numberOfEnemies = 50;     // Number of enemies on-screen.
-    final private int playerMaxHealth = 3;
+    final private int NUMBER_OF_ENEMIES = 50;     // Number of enemies on-screen.
+    final private int MAX_PLAYER_HEALTH = 3;      // Max player's health in-game.
     
     private Pane root;
     
@@ -55,7 +57,7 @@ public class AsteroidsApp extends Application {
         playerScore.show(root);
         
         // Health.
-        playerHealth = new HealthHUD(playerMaxHealth);
+        playerHealth = new HealthHUD(MAX_PLAYER_HEALTH);
         playerHealth.show(root);
         
         AnimationTimer timer = new AnimationTimer() {
@@ -109,9 +111,9 @@ public class AsteroidsApp extends Application {
                     
                     // Scoring.
                     if(enemy instanceof TrackingEnemy) {
-                        playerScore.updateValue(15);
-                    } else {
-                        playerScore.updateValue(10);
+                        playerScore.updateHUD(15);
+                    } else if(enemy instanceof NormalEnemy){
+                        playerScore.updateHUD(10);
                     }
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());
                 }
@@ -123,13 +125,13 @@ public class AsteroidsApp extends Application {
         for (GameObject enemy: enemies) {
             if (player.isColliding(enemy)) {
                 enemy.setAlive(false);
-                playerHealth.updateValue(-1);
+                playerHealth.updateHUD(-1);
                 root.getChildren().remove(enemy.getView());
             }
         }
         
         // Death condition.
-        if(playerHealth.health.getValue() == 0) {
+        if(playerHealth.getValue() == 0) {
             player.setAlive(false);
             root.getChildren().remove(player.getView());
         }
@@ -151,10 +153,9 @@ public class AsteroidsApp extends Application {
         }
        
         // Random enemy spawning.
-        if (enemies.size() < numberOfEnemies) {
+        if (enemies.size() < NUMBER_OF_ENEMIES) {
             EnemySpawn();
         }
-        
     }
     
     // State : Reset.

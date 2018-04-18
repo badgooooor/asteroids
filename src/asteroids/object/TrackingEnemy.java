@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package assignment.original;
+package asteroids.object;
 
 
 import java.util.Random;
@@ -24,15 +24,16 @@ import javafx.util.Duration;
  * @author borbier
  * Tracker == The chasing invaders.
  */
-class TrackingEnemy extends Enemy {   
+public class TrackingEnemy extends Enemy {   
     private Random rand;    
     // Constructor.
-    TrackingEnemy() {
+    public TrackingEnemy() {
         super(new Circle(10, 10, 10, Color.RED));
         this.rand = new Random();
     }
     
     // Tracking method.
+    @Override
     public void track(GameObject player) {
         // Create path.
         Path path = new Path();

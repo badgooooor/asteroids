@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package assignment.original;
+package asteroids.hud;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -17,9 +17,9 @@ import javafx.scene.text.Text;
  * @author borbier
  */
 public class HealthHUD implements TextHUDInterface {
-    Health health;
-    Text text;
-    VBox vb;
+    private Health health;
+    private Text text;
+    private VBox vb;
 
     public HealthHUD(int maxhealth) {
         // Initialize objects.
@@ -42,17 +42,17 @@ public class HealthHUD implements TextHUDInterface {
     }
     
     @Override
-    public void updateValue(int valueChange) {
+    public void updateHUD(int valueChange) {
         if(valueChange >= 0) {
             health.addValue(valueChange);
         } else {
             health.subtractValue(Math.abs(valueChange));
         }
-        showValue();
+        showHUD();
     }
     
     @Override
-    public void showValue() {
+    public void showHUD() {
         text.setText("Health : " + (int)(health.getValue()));
     }
     
@@ -64,6 +64,11 @@ public class HealthHUD implements TextHUDInterface {
     @Override
     public void reset() {
         health.reset();
-        this.showValue();
+        this.showHUD();
+    }
+    
+    @Override
+    public double getValue() {
+        return health.getValue();
     }
 }

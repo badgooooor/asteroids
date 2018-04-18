@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package assignment.original;
+package asteroids.object;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -13,8 +13,8 @@ import javafx.scene.shape.Circle;
  * @author borbier
  */
     // A sitting still enemy.
-class NormalEnemy extends Enemy {
-    NormalEnemy() {
+public class NormalEnemy extends Enemy {
+    public NormalEnemy() {
         super(new Circle(15,15,15, Color.RED));
     }
 }

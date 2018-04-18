@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package assignment.original;
+package asteroids.object;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -12,8 +12,8 @@ import javafx.scene.shape.Circle;
  *
  * @author borbier
  */
-class Bullet extends GameObject {
-    Bullet() {
+public class Bullet extends GameObject {
+    public Bullet() {
         super(new Circle(5, 5, 5, Color.BROWN));
     }
 }
