@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
  *
  * @author borbier
  */
-public class HealthHUD implements TextHUDInterface {
+public class HealthHUD implements TextValueInterface {
     private Health health;
     private Text text;
     private VBox vb;

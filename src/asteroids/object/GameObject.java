@@ -73,8 +73,9 @@ public abstract class GameObject {
         return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
     }
 
-    public void track(GameObject player) {
+    public void movement(GameObject player) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }
 

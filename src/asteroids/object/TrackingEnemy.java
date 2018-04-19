@@ -10,6 +10,7 @@ import java.util.Random;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.Timeline;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -25,61 +26,26 @@ import javafx.util.Duration;
  * Tracker == The chasing invaders.
  */
 public class TrackingEnemy extends Enemy {   
-    private Random rand;    
+    private double speed = 0.25; 
     // Constructor.
     public TrackingEnemy() {
         super(new Circle(10, 10, 10, Color.RED));
-        this.rand = new Random();
     }
     
     // Tracking method.
-    @Override
-    public void track(GameObject player) {
-        // Create path.
-        Path path = new Path();
-        
-        // Get self co-ordinate.
-        double x = this.getView().getTranslateX();
-        double y = this.getView().getTranslateY();
-        // Get player co-ordinate.
+   @Override
+    public void movement(GameObject player) {
+        // Get distance between player and enemy.
         double playerX = player.getView().getTranslateX();
         double playerY = player.getView().getTranslateY();
-
-        // Get difference between enemy and player.
-        double dx = this.getView().getTranslateX() - playerX;
-        double dy = this.getView().getTranslateY() - playerY;
+        double enemyX = this.getView().getTranslateX();
+        double enemyY = this.getView().getTranslateY();
         
-        // Create MoveTo and LineTo for creating path.
-        // MoveTo --> Destination
-        // LineTo --> Line from enemy to target.
-        MoveTo moveTo = new MoveTo();
-        LineTo lineTo = new LineTo();
+        // Set tracking vector.
+        double distance = Math.sqrt(Math.pow(playerX - enemyX, 2) + Math.pow(playerY - enemyY, 2));
+        double x = (playerX - enemyX) / distance;
+        double y = (playerY - enemyY) / distance;
         
-        moveTo.setX(playerX);
-        moveTo.setY(playerY);
-        
-        lineTo.setX(dx + random());
-        lineTo.setY(dy + random());
-        
-        // Add element to path.
-        path.getElements().add(moveTo);
-        path.getElements().add(lineTo);
-        
-        // Set transistion & let the tracker rocks.
-        PathTransition transition = new PathTransition();
-        transition.setDuration(Duration.seconds(30.0));
-        transition.setDelay(Duration.seconds(3.0));
-        transition.setPath(path);
-        transition.setNode(this.getView());
-        transition.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
-        transition.setCycleCount(Timeline.INDEFINITE);
-        transition.setAutoReverse(false);
-        
-        transition.play();
-    }
-    
-    // Random function.
-    public double random() {
-        return rand.nextInt(30);
+        this.setVelocity(new Point2D(x * speed, y * speed));
     }
 }

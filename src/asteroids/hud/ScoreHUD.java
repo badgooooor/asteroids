@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
  *
  * @author borbier
  */
-public class ScoreHUD implements TextHUDInterface{
+public class ScoreHUD implements TextValueInterface{
     // Initialize variables.
     private Score score;
     private Text tscore;

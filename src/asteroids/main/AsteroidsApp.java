@@ -1,6 +1,7 @@
 package asteroids.main;
 
-import asteroids.hud.*;
+import asteroids.hud.HealthHUD;
+import asteroids.hud.ScoreHUD;
 import asteroids.object.*;
 
 import javafx.animation.AnimationTimer;
@@ -22,7 +23,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
+ * Original source code from,
  * @author Almas Baimagambetov (almaslvl@gmail.com)
+ * 
+ * 
+ * @author Yuttakhan Baingen
+ * @author Jirawat KaewKulrabut
+ * @author Pichamol Phothong
+ * Computer Engineering, KMITL.
  */
 public class AsteroidsApp extends Application {
     // Config variables.
@@ -121,7 +129,6 @@ public class AsteroidsApp extends Application {
         }
         
         // Check collision between enemies & player.
-        // Bug need to fix : health not decreasing.
         for (GameObject enemy: enemies) {
             if (player.isColliding(enemy)) {
                 enemy.setAlive(false);
@@ -131,10 +138,7 @@ public class AsteroidsApp extends Application {
         }
         
         // Death condition.
-        if(playerHealth.getValue() == 0) {
-            player.setAlive(false);
-            root.getChildren().remove(player.getView());
-        }
+        if(playerHealth.getValue() == 0) playerDeath();
         
         // Remove bullets & enemies.
         bullets.removeIf(GameObject::isDead);
@@ -148,22 +152,32 @@ public class AsteroidsApp extends Application {
         // Tracking enemies chasing player.
         for(GameObject e: enemies) {
             if(e instanceof TrackingEnemy) {
-                e.track(player);
+                e.movement(player);
             }
         }
+        
        
         // Random enemy spawning.
         if (enemies.size() < NUMBER_OF_ENEMIES) {
             EnemySpawn();
         }
     }
-    
+    // State : Player Death.
+    public void playerDeath() {
+        player.setAlive(false);
+        root.getChildren().remove(player.getView());
+    }
     // State : Reset.
     public void reset() {
         for (GameObject enemy : enemies) {
             root.getChildren().remove(enemy.getView());
         }
+        enemies.clear();
+        
         player.setAlive(true);
+        player.getView().setTranslateX(root.getPrefWidth() / 2);
+        player.getView().setTranslateY(root.getPrefHeight() / 2);
+        
         playerHealth.reset();
         playerScore.reset();
         root.getChildren().add(player.getView());
@@ -180,7 +194,7 @@ public class AsteroidsApp extends Application {
                 player.rotateLeft();
             } else if (e.getCode() == KeyCode.RIGHT) {
                 player.rotateRight();
-            } else if (e.getCode() == KeyCode.SPACE) {
+            } else if (e.getCode() == KeyCode.SPACE && player.isAlive()) {
                 Bullet bullet = new Bullet();
                 bullet.setVelocity(player.getVelocity().normalize().multiply(5));
                 addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());

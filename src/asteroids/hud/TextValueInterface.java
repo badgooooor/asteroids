@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
  *
  * @author borbier
  */
-public interface TextHUDInterface {
+public interface TextValueInterface {
     public void updateHUD(int valueChange);
     public void showHUD();
     public void show(Pane screen);
