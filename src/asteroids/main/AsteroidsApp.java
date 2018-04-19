@@ -2,6 +2,7 @@ package asteroids.main;
 
 import asteroids.hud.HealthHUD;
 import asteroids.hud.ScoreHUD;
+import asteroids.hud.GameOverText;
 import asteroids.object.*;
 
 import javafx.animation.AnimationTimer;
@@ -47,6 +48,7 @@ public class AsteroidsApp extends Application {
     
     private ScoreHUD playerScore;
     private HealthHUD playerHealth;
+    private GameOverText gameOver;
     
     // Player object.
     private GameObject player;
@@ -67,6 +69,9 @@ public class AsteroidsApp extends Application {
         // Health.
         playerHealth = new HealthHUD(MAX_PLAYER_HEALTH);
         playerHealth.show(root);
+        
+        gameOver = new GameOverText(playerScore);
+        gameOver.show(root);
         
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -162,11 +167,14 @@ public class AsteroidsApp extends Application {
             EnemySpawn();
         }
     }
+    
     // State : Player Death.
     public void playerDeath() {
         player.setAlive(false);
         root.getChildren().remove(player.getView());
+        gameOver.display();
     }
+    
     // State : Reset.
     public void reset() {
         for (GameObject enemy : enemies) {
@@ -177,6 +185,8 @@ public class AsteroidsApp extends Application {
         player.setAlive(true);
         player.getView().setTranslateX(root.getPrefWidth() / 2);
         player.getView().setTranslateY(root.getPrefHeight() / 2);
+        
+        gameOver.remove();
         
         playerHealth.reset();
         playerScore.reset();

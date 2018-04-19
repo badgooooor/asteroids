@@ -32,13 +32,13 @@ public class HealthHUD implements TextValueInterface {
         // Set up
         text.setText("Health : " + (int)(health.getValue()));
         text.setFill(Color.BLACK);
-        text.setFont(Font.font(null, FontWeight.BOLD, 24));
+        text.setFont(Font.font(null, FontWeight.BOLD, 23));
         
         text.setX(100);
-        text.setY(100);
+        text.setY(105);
         
         text.setTranslateX(30);
-        text.setTranslateY(30);
+        text.setTranslateY(31);
     }
     
     @Override
