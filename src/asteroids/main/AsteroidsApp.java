@@ -61,7 +61,7 @@ public class AsteroidsApp extends Application {
     private HealthHUD playerHealth;
     private GameOverText gameOver;
 
-    private GameBackground world;
+    private GameImage world;
     private Scene menu, game;
     private int page = 0;
     // Player object.
@@ -76,7 +76,7 @@ public class AsteroidsApp extends Application {
 
         // world.
         try {
-            world = new GameBackground("src\\res\\bg.png");
+            world = new GameImage("src\\res\\bg.png");
             world.show(root);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AsteroidsApp.class.getName()).log(Level.SEVERE, null, ex);
@@ -233,17 +233,14 @@ public class AsteroidsApp extends Application {
         change.setLayoutX(300);
         change.setLayoutY(200);
 
-        Image imageMenu = new Image(new FileInputStream("src\\res\\grid-war-main-title.png"));
-        Image imageHowto = new Image(new FileInputStream("src\\res\\grid-wars-tutorial.png"));
-        ImageView viewMenu = new ImageView(imageMenu);
-        ImageView viewHowto = new ImageView(imageHowto);
-        viewMenu.setY(20);
-        viewHowto.setFitHeight(350);
-        viewHowto.setFitWidth(300);
-        viewHowto.setX(400);
-        viewHowto.setY(275);
-
-        groupMenu.getChildren().addAll(viewMenu, viewHowto);
+        try {
+            GameImage imageMenu = new GameImage("src\\res\\grid-war-main-title.png", 0, 20);
+            imageMenu.show(groupMenu);
+            GameImage imageHowto = new GameImage("src\\res\\grid-wars-tutorial.png", 400, 275, 300, 350);
+            imageHowto.show(groupMenu);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AsteroidsApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         menu = new Scene(groupMenu);
 
