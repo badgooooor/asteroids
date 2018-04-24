@@ -23,7 +23,7 @@ public class ScoreHUD implements TextValueInterface{
     private VBox vb;
     
     // Constructor.
-    public ScoreHUD() {
+    public ScoreHUD(int x, int y) {
         tscore = new Text();
         vb = new VBox();
         score = new Score();
@@ -32,14 +32,14 @@ public class ScoreHUD implements TextValueInterface{
         
         // Set up
         tscore.setText("Score : " + (int)(score.getValue()));
-        tscore.setFill(Color.BLACK);
+        tscore.setFill(Color.WHITE);
         tscore.setFont(Font.font(null, FontWeight.BOLD, 24));
         
         tscore.setX(100);
         tscore.setY(100);
         
-        tscore.setTranslateX(470);
-        tscore.setTranslateY(30);
+        tscore.setTranslateX(x);
+        tscore.setTranslateY(y);
         
     }
     

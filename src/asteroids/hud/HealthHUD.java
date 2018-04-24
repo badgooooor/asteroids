@@ -31,7 +31,7 @@ public class HealthHUD implements TextValueInterface {
         
         // Set up
         text.setText("Health : " + (int)(health.getValue()));
-        text.setFill(Color.BLACK);
+        text.setFill(Color.WHITE);
         text.setFont(Font.font(null, FontWeight.BOLD, 23));
         
         text.setX(100);

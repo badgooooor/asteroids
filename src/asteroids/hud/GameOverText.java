@@ -31,14 +31,14 @@ public class GameOverText implements TextHUDInterface{
         vb.getChildren().addAll(titleText, finalScoreText);
         
         // Set-up.
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.RED);
         titleText.setFont(Font.font(null, FontWeight.BOLD, 32));
         titleText.setX(0);
         titleText.setY(0);
         titleText.setTranslateX(300);
         titleText.setTranslateY(300);
         
-        finalScoreText.setFill(Color.BLACK);
+        finalScoreText.setFill(Color.RED);
         finalScoreText.setFont(Font.font(null, FontWeight.BOLD, 28));
         finalScoreText.setX(0);
         finalScoreText.setY(0);

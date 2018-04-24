@@ -4,6 +4,7 @@ import asteroids.hud.HealthHUD;
 import asteroids.hud.ScoreHUD;
 import asteroids.hud.GameOverText;
 import asteroids.object.*;
+import java.io.FileNotFoundException;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -16,12 +17,9 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 
 /**
  * Original source code from,
@@ -44,11 +42,11 @@ public class AsteroidsApp extends Application {
     private List<GameObject> bullets = new ArrayList<>();
     private List<GameObject> enemies = new ArrayList<>();
     
-    public static int score;
-    
+    // HUD / Text / Background
     private ScoreHUD playerScore;
     private HealthHUD playerHealth;
     private GameOverText gameOver;
+    private GameBackground world;
     
     // Player object.
     private GameObject player;
@@ -57,13 +55,21 @@ public class AsteroidsApp extends Application {
         root = new Pane();
         root.setPrefSize(600, 600);
         
+        // world.
+        try {
+            world = new GameBackground("src\\res\\bg.png");
+            world.show(root);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AsteroidsApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         // Initialize player.
         player = new Player();
         player.setVelocity(new Point2D(1, 0));
         addGameObject(player, 300, 300);
         
         // Score counter.
-        playerScore = new ScoreHUD();
+        playerScore = new ScoreHUD(470, 30);
         playerScore.show(root);
         
         // Health.
