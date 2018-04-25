@@ -4,6 +4,7 @@ import asteroids.hud.HealthHUD;
 import asteroids.hud.ScoreHUD;
 import asteroids.hud.GameOverText;
 import asteroids.object.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -23,15 +24,8 @@ import java.util.logging.Logger;
 import static javafx.application.Application.launch;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * Original source code from,
@@ -66,9 +60,15 @@ public class AsteroidsApp extends Application {
     private int page = 0;
     // Player object.
     private GameObject player;
-
+    
     AnimationTimer timer;
-
+    
+    //Sounds.
+    GameAudio gameSound = new GameAudio();            
+    String musicFile = "src/res/gameSounds.mp3";     
+    Media sound = new Media(new File(musicFile).toURI().toString());
+    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+    
     private Parent createContent() {
         // Set up pane & size.
         root = new Pane();
@@ -148,8 +148,10 @@ public class AsteroidsApp extends Application {
                     // Scoring.
                     if (enemy instanceof TrackingEnemy) {
                         playerScore.updateHUD(15);
+                        gameSound.playBangSmallSound();         //add
                     } else if (enemy instanceof NormalEnemy) {
                         playerScore.updateHUD(10);
+                        gameSound.playBangLargeSound();         //add
                     }
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());
                 }
@@ -194,6 +196,7 @@ public class AsteroidsApp extends Application {
 
     // State : Player Death.
     public void playerDeath() {
+        gameSound.playBangLargeSound();
         player.setAlive(false);
         root.getChildren().remove(player.getView());
         gameOver.display();
@@ -256,6 +259,7 @@ public class AsteroidsApp extends Application {
                 } else if (e.getCode() == KeyCode.RIGHT) {
                     player.rotateRight();
                 } else if (e.getCode() == KeyCode.SPACE && player.isAlive()) {
+                    gameSound.playShotingSound();                 //add
                     Bullet bullet = new Bullet();
                     bullet.setVelocity(player.getVelocity().normalize().multiply(5));
                     addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
@@ -267,7 +271,9 @@ public class AsteroidsApp extends Application {
             });
 
         });
-
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);       //add
+        mediaPlayer.play();
+        
         stage.show();
     }
 
