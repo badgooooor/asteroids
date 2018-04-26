@@ -3,9 +3,9 @@ package asteroids.main;
 import asteroids.hud.HealthHUD;
 import asteroids.hud.ScoreHUD;
 import asteroids.hud.GameOverText;
+import asteroids.hud.TextBox;
 import asteroids.object.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import javafx.animation.AnimationTimer;
@@ -29,40 +29,34 @@ import javafx.scene.media.MediaPlayer;
 
 /**
  * Original source code from,
- *
  * @author Almas Baimagambetov (almaslvl@gmail.com)
- *
- *
+ * 
  * @author Yuttakhan Baingen
  * @author Jirawat KaewKulrabut
  * @author Pichamol Phothong Computer Engineering, KMITL.
  */
 public class AsteroidsApp extends Application {
-
     // Config variables.
     final private int NUMBER_OF_ENEMIES = 50;     // Number of enemies on-screen.
     final private int MAX_PLAYER_HEALTH = 3;      // Max player's health in-game.
 
     private Pane root;
 
-    // Array of enemies & bullets.
+    // Game elements.
     private List<GameObject> bullets = new ArrayList<>();
     private List<GameObject> enemies = new ArrayList<>();
-
-    public static int score;
-
     private ScoreHUD playerScore;
     private HealthHUD playerHealth;
     private GameOverText gameOver;
-
+    private GameObject player;
     private GameImage world;
+    
+    // Menu elements.
     private Scene menu, game;
     private int page = 0;
-    // Player object.
-    private GameObject player;
-    
+
     AnimationTimer timer;
-    
+
     //Sounds.
     GameAudio gameSound = new GameAudio();            
     String musicFile = "src/res/gameSounds.mp3";     
@@ -73,24 +67,21 @@ public class AsteroidsApp extends Application {
         // Set up pane & size.
         root = new Pane();
         root.setPrefSize(600, 600);
-
-        // world.
+ 
         try {
             world = new GameImage("src\\res\\bg.png");
             world.show(root);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AsteroidsApp.class.getName()).log(Level.SEVERE, null, ex);
         }
-        // Initialize player.
+
         player = new Player();
         player.setVelocity(new Point2D(1, 0));
         addGameObject(player, 300, 300);
 
-        // Score counter.
         playerScore = new ScoreHUD(470, 30);
         playerScore.show(root);
 
-        // Health.
         playerHealth = new HealthHUD(MAX_PLAYER_HEALTH);
         playerHealth.show(root);
 
@@ -113,12 +104,10 @@ public class AsteroidsApp extends Application {
         bullets.add(bullet);
         addGameObject(bullet, x, y);
     }
-
     private void addEnemy(GameObject enemy, double x, double y) {
         enemies.add(enemy);
         addGameObject(enemy, x, y);
     }
-
     private void addGameObject(GameObject object, double x, double y) {
         object.getView().setTranslateX(x);
         object.getView().setTranslateY(y);
@@ -144,20 +133,18 @@ public class AsteroidsApp extends Application {
                 if (bullet.isColliding(enemy)) {
                     bullet.setAlive(false);
                     enemy.setAlive(false);
-
                     // Scoring.
                     if (enemy instanceof TrackingEnemy) {
-                        playerScore.updateHUD(15);
-                        gameSound.playBangSmallSound();         //add
+                        playerScore.updateHUD(15);              // update & play sound.
+                        gameSound.playBangSmallSound();       
                     } else if (enemy instanceof NormalEnemy) {
-                        playerScore.updateHUD(10);
-                        gameSound.playBangLargeSound();         //add
+                        playerScore.updateHUD(10);              
+                        gameSound.playBangLargeSound();         
                     }
-                    root.getChildren().removeAll(bullet.getView(), enemy.getView());
+                    root.getChildren().removeAll(bullet.getView(), enemy.getView());    // remove.
                 }
             }
         }
-
         // Check collision between enemies & player.
         for (GameObject enemy : enemies) {
             if (player.isColliding(enemy)) {
@@ -166,28 +153,23 @@ public class AsteroidsApp extends Application {
                 root.getChildren().remove(enemy.getView());
             }
         }
-
         // Death condition.
         if (playerHealth.getValue() == 0) {
             playerDeath();
         }
-
         // Remove bullets & enemies.
         bullets.removeIf(GameObject::isDead);
         enemies.removeIf(GameObject::isDead);
-
         // Update each instances.
         bullets.forEach(GameObject::update);
         enemies.forEach(GameObject::update);
         player.update();
-
         // Tracking enemies chasing player.
         for (GameObject e : enemies) {
             if (e instanceof TrackingEnemy) {
                 e.movement(player);
             }
         }
-
         // Random enemy spawning.
         if (enemies.size() < NUMBER_OF_ENEMIES) {
             EnemySpawn();
@@ -225,7 +207,6 @@ public class AsteroidsApp extends Application {
     // Scene setting.
     @Override
     public void start(Stage stage) throws Exception {
-
         root = new Pane();
         root.setPrefSize(600, 600);
         Button change = new Button("PLAY GAME");
@@ -235,7 +216,8 @@ public class AsteroidsApp extends Application {
         groupMenu.getChildren().addAll(root, change);
         change.setLayoutX(300);
         change.setLayoutY(200);
-
+        
+        // Add images and object in menu.
         try {
             GameImage imageMenu = new GameImage("src\\res\\grid-war-main-title.png", 0, 20);
             imageMenu.show(groupMenu);
@@ -244,6 +226,8 @@ public class AsteroidsApp extends Application {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AsteroidsApp.class.getName()).log(Level.SEVERE, null, ex);
         }
+        TextBox playerName = new TextBox();
+        playerName.show(groupMenu);
 
         menu = new Scene(groupMenu);
 
@@ -281,5 +265,4 @@ public class AsteroidsApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 }

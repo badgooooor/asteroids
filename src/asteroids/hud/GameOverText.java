@@ -35,15 +35,15 @@ public class GameOverText implements TextHUDInterface{
         titleText.setFont(Font.font(null, FontWeight.BOLD, 32));
         titleText.setX(0);
         titleText.setY(0);
-        titleText.setTranslateX(300);
-        titleText.setTranslateY(300);
+        titleText.setTranslateX(190);
+        titleText.setTranslateY(240);
         
         finalScoreText.setFill(Color.RED);
         finalScoreText.setFont(Font.font(null, FontWeight.BOLD, 28));
         finalScoreText.setX(0);
         finalScoreText.setY(0);
-        finalScoreText.setTranslateX(340);
-        finalScoreText.setTranslateY(340);
+        finalScoreText.setTranslateX(170);
+        finalScoreText.setTranslateY(270);
     }
     
     @Override
