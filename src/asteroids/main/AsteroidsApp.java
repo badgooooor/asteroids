@@ -92,7 +92,10 @@ public class AsteroidsApp extends Application {
         
         gameOver = new GameOverText(playerScore);
         gameOver.show(root);
-
+        
+        highScore = new HighScoreHUD(hm.getTopScore(), 250, 30);
+        highScore.show(root);
+        
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -120,11 +123,13 @@ public class AsteroidsApp extends Application {
     }
     private void EnemySpawn() {
         double enemy_rand = Math.random();
-        if (enemy_rand < 0.01) {
+        if (enemy_rand < 0.005 && playerHealth.getValue() < 3) {
             addEnemy(new HealingEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
-        } else if (enemy_rand > 0.01 && enemy_rand < 0.02) {
+        } else if(enemy_rand > 0.005 && enemy_rand < 0.01 && enemies.size() > 40) {
+            addEnemy(new NukeEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+        } else if (enemy_rand > 0.01 && enemy_rand < 0.08) {
             addEnemy(new NormalEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
-        } else if (enemy_rand > 0.02 && enemy_rand < 0.03) {
+        } else if (enemy_rand > 0.08 && enemy_rand < 0.10) {
             addEnemy(new TrackingEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
         }
     }
@@ -144,8 +149,13 @@ public class AsteroidsApp extends Application {
                         playerScore.updateHUD(10);              
                         gameSound.playBangLargeSound();         
                     } else if (enemy instanceof HealingEnemy) {
-                        playerScore.updateHUD(10);
+                        playerScore.updateHUD(5);
                         playerHealth.updateHUD(1);
+                    } else if (enemy instanceof NukeEnemy) {
+                        playerScore.updateHUD(5);
+                        for (GameObject e: enemies) {
+                            root.getChildren().remove(e.getView());
+                        }
                     }
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());    // remove.
                 }
@@ -188,9 +198,9 @@ public class AsteroidsApp extends Application {
         root.getChildren().remove(player.getView());
         gameOver.display();
         timer.stop();
-        hm.addScore(playerScore.getScore().getName(), (int) playerScore.getValue());
-        
-        System.out.println(hm.getHighscoreString());
+        hm.addScore(playerScore.getScore().getName(), (int) playerScore.getValue());    // Get score and set score.
+        highScore.updateHUD(hm.getTopScore());                                           // 
+        System.out.println(hm.getHighscoreString());    // Debug.
     }
 
     public void StateReset() {

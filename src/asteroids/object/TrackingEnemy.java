@@ -29,7 +29,7 @@ public class TrackingEnemy extends Enemy {
     private double speed = 0.25; 
     // Constructor.
     public TrackingEnemy() {
-        super(new Circle(10, 10, 10, Color.RED));
+        super(new Circle(10, 10, 10, Color.ORANGE));
     }
     
     // Tracking method.

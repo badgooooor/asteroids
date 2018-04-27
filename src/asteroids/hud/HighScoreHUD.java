@@ -55,14 +55,13 @@ public class HighScoreHUD implements TextValueInterface{
         tname.setTranslateY(y+24);
     }
     
+    public void showHUD() {
+        tscore.setText("HI : " + (int)(score.getValue()));
+        tname.setText("PLAYER : " + (score.getName()));
+    }
     
     @Override
     public void updateHUD(int valueChange) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void showHUD() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -78,7 +77,11 @@ public class HighScoreHUD implements TextValueInterface{
 
     @Override
     public double getValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return score.getValue();
     }
     
+    public void updateHUD(Score score) {
+        this.score = score;
+        this.showHUD();
+    }
 }

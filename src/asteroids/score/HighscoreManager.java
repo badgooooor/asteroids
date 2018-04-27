@@ -97,4 +97,14 @@ public class HighscoreManager {
         }
         return highscoreString;
     }
+    
+    public Score getTopScore() {
+        ArrayList<Score> scores;
+        scores = getScores();
+        
+        int topScore = (int) scores.get(0).getValue();
+        String topName = scores.get(0).getName();
+        
+        return new Score(topName, topScore);
+    }
 }
