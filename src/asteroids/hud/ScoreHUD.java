@@ -5,6 +5,8 @@
  */
 package asteroids.hud;
 
+import asteroids.score.Score;
+import asteroids.interfaceClass.TextValueInterface;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -73,5 +75,9 @@ public class ScoreHUD implements TextValueInterface{
     @Override
     public double getValue() {
         return score.getValue();
+    }
+    
+    public Score getScore() {
+        return score;
     }
 }

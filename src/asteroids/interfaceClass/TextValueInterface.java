@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteroids.hud;
+package asteroids.interfaceClass;
 
 import javafx.scene.layout.Pane;
 
@@ -11,8 +11,11 @@ import javafx.scene.layout.Pane;
  *
  * @author borbier
  */
-public interface TextHUDInterface {
+public interface TextValueInterface {
+    public void updateHUD(int valueChange);
+    public void showHUD();
     public void show(Pane screen);
-    public void display();
-    public void remove();
+    public void reset();
+    
+    public double getValue();
 }

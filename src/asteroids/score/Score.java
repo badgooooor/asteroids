@@ -3,19 +3,38 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteroids.hud;
+package asteroids.score;
+
+import asteroids.interfaceClass.ValueInterface;
+import java.io.Serializable;
 
 /**
  *
  * @author borbier
  */
-public class Score implements ValueInterface{
+public class Score implements ValueInterface, Serializable{
     private double score;
-
+    private String name;
+    
+    // Constructor
     public Score() {
         this.score = 0;
     }
     
+    public Score(String name, double score) {
+        this.name = name;
+        this.score = score;
+    }
+    
+    // Getter/ Setter for name.
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+      
     // Add / Subtract score.
     @Override
     public void addValue(double added) {

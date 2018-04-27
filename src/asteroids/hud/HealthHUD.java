@@ -5,6 +5,8 @@
  */
 package asteroids.hud;
 
+import asteroids.health.Health;
+import asteroids.interfaceClass.TextValueInterface;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;

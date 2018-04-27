@@ -15,9 +15,7 @@ import javafx.scene.layout.Pane;
  * @author Server
  */
 public class TextBox {
-
     public TextField textBox;
-    public String name;
     HBox hb;
 
     public TextBox() {
@@ -37,12 +35,10 @@ public class TextBox {
     }
 
     public String getName() {
-        return name;
+        return textBox.getText();
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
 
     public void show(Group screen) {
        screen.getChildren().add(hb);

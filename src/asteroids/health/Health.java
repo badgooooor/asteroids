@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteroids.hud;
+package asteroids.health;
+
+import asteroids.interfaceClass.ValueInterface;
 
 /**
  *

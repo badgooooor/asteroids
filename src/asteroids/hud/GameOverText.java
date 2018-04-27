@@ -5,6 +5,7 @@
  */
 package asteroids.hud;
 
+import asteroids.interfaceClass.TextHUDInterface;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -54,7 +55,7 @@ public class GameOverText implements TextHUDInterface{
     @Override
     public void display() {
         titleText.setText("GAME OVER");
-        finalScoreText.setText("Your score : " + score.getValue());
+        finalScoreText.setText(score.getScore().getName()+"'s score : " + score.getValue());
     }
     
     @Override

@@ -1,10 +1,13 @@
 package asteroids.main;
 
+import asteroids.audio.GameAudio;
 import asteroids.hud.HealthHUD;
 import asteroids.hud.ScoreHUD;
 import asteroids.hud.GameOverText;
+import asteroids.hud.HighScoreHUD;
 import asteroids.hud.TextBox;
 import asteroids.object.*;
+import asteroids.score.HighscoreManager;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -46,6 +49,7 @@ public class AsteroidsApp extends Application {
     private List<GameObject> bullets = new ArrayList<>();
     private List<GameObject> enemies = new ArrayList<>();
     private ScoreHUD playerScore;
+    private HighScoreHUD highScore;
     private HealthHUD playerHealth;
     private GameOverText gameOver;
     private GameObject player;
@@ -56,14 +60,15 @@ public class AsteroidsApp extends Application {
     private int page = 0;
 
     AnimationTimer timer;
-
+    
+    HighscoreManager hm = new HighscoreManager();
     //Sounds.
     GameAudio gameSound = new GameAudio();            
     String musicFile = "src/res/gameSounds.mp3";     
     Media sound = new Media(new File(musicFile).toURI().toString());
     MediaPlayer mediaPlayer = new MediaPlayer(sound);
     
-    private Parent createContent() {
+    private Parent StateGameStart() {
         // Set up pane & size.
         root = new Pane();
         root.setPrefSize(600, 600);
@@ -84,14 +89,14 @@ public class AsteroidsApp extends Application {
 
         playerHealth = new HealthHUD(MAX_PLAYER_HEALTH);
         playerHealth.show(root);
-
+        
         gameOver = new GameOverText(playerScore);
         gameOver.show(root);
 
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                onUpdate();
+                StateGameUpdate();
             }
         };
         timer.start();
@@ -99,7 +104,7 @@ public class AsteroidsApp extends Application {
         return root;
     }
 
-    // Adding instances methods.
+    // Enemy spawning methods.
     private void addBullet(GameObject bullet, double x, double y) {
         bullets.add(bullet);
         addGameObject(bullet, x, y);
@@ -113,20 +118,18 @@ public class AsteroidsApp extends Application {
         object.getView().setTranslateY(y);
         root.getChildren().add(object.getView());
     }
-
-    // Enemy spawning
     private void EnemySpawn() {
         double enemy_rand = Math.random();
         if (enemy_rand < 0.01) {
-            addEnemy(new TrackingEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+            addEnemy(new HealingEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
         } else if (enemy_rand > 0.01 && enemy_rand < 0.02) {
             addEnemy(new NormalEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
+        } else if (enemy_rand > 0.02 && enemy_rand < 0.03) {
+            addEnemy(new TrackingEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
         }
     }
 
-    // STATE METHOD
-    // State : IN-GAME Update
-    private void onUpdate() {
+    private void StateGameUpdate() {
         // Check collision between bullets & enemies.
         for (GameObject bullet : bullets) {
             for (GameObject enemy : enemies) {
@@ -140,6 +143,9 @@ public class AsteroidsApp extends Application {
                     } else if (enemy instanceof NormalEnemy) {
                         playerScore.updateHUD(10);              
                         gameSound.playBangLargeSound();         
+                    } else if (enemy instanceof HealingEnemy) {
+                        playerScore.updateHUD(10);
+                        playerHealth.updateHUD(1);
                     }
                     root.getChildren().removeAll(bullet.getView(), enemy.getView());    // remove.
                 }
@@ -155,7 +161,7 @@ public class AsteroidsApp extends Application {
         }
         // Death condition.
         if (playerHealth.getValue() == 0) {
-            playerDeath();
+            StatePlayerDeath();
         }
         // Remove bullets & enemies.
         bullets.removeIf(GameObject::isDead);
@@ -176,18 +182,18 @@ public class AsteroidsApp extends Application {
         }
     }
 
-    // State : Player Death.
-    public void playerDeath() {
+    public void StatePlayerDeath() {
         gameSound.playBangLargeSound();
         player.setAlive(false);
         root.getChildren().remove(player.getView());
         gameOver.display();
         timer.stop();
-
+        hm.addScore(playerScore.getScore().getName(), (int) playerScore.getValue());
+        
+        System.out.println(hm.getHighscoreString());
     }
 
-    // State : Reset.
-    public void reset() {
+    public void StateReset() {
         for (GameObject enemy : enemies) {
             root.getChildren().remove(enemy.getView());
         }
@@ -233,9 +239,9 @@ public class AsteroidsApp extends Application {
 
         stage.setScene(menu);
         change.setOnAction(a -> {
-            game = new Scene(createContent());
+            game = new Scene(StateGameStart());
             stage.setScene(game);
-
+            playerScore.getScore().setName(playerName.getName());
             // Player Input. & bullet shooting.
             stage.getScene().setOnKeyPressed(e -> {
                 if (e.getCode() == KeyCode.LEFT) {
@@ -249,7 +255,7 @@ public class AsteroidsApp extends Application {
                     addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
                     // Clear screen and restart the game.    
                 } else if (e.getCode() == KeyCode.R && player.isDead()) {
-                    reset();
+                    StateReset();
                     stage.setScene(menu);
                 }
             });
