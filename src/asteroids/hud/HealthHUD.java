@@ -1,3 +1,4 @@
+/**** implemented for 60/2 OOP ****/
 /*
  * Head-up display class, display Player's health -- implemented from TextValueInterface
  */

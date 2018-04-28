@@ -70,6 +70,7 @@ public class AsteroidsApp extends Application {
     Media sound = new Media(new File(musicFile).toURI().toString());
     MediaPlayer mediaPlayer = new MediaPlayer(sound);
     
+    /**** implemented for 60/2 OOP ****/
     // Initialize game's object.
     private Parent StateGameStart() {
         // Set up pane & size.
@@ -111,7 +112,8 @@ public class AsteroidsApp extends Application {
 
         return root;
     }
-
+    
+    
     // Spawn methods. (bullets, enemies)
     private void addBullet(GameObject bullet, double x, double y) {         
         bullets.add(bullet);
@@ -126,6 +128,7 @@ public class AsteroidsApp extends Application {
         object.getView().setTranslateY(y);
         root.getChildren().add(object.getView());
     }
+    /**** implemented for 60/2 OOP ****/
     // Randomizer for spawn enemies. (special enemies will also having a special condition in order to trigger spawning.
     private void EnemySpawn() {
         double enemy_rand = Math.random();
@@ -139,7 +142,8 @@ public class AsteroidsApp extends Application {
             addEnemy(new TrackingEnemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
         }
     }
-
+    
+    /**** implemented for 60/2 OOP ****/
     // Update State 
     private void StateGameUpdate() {
         // Check collision between bullets & enemies.
@@ -200,6 +204,7 @@ public class AsteroidsApp extends Application {
         }
     }
     
+    /**** implemented for 60/2 OOP ****/
     // Player death state -- trigger when player's dead.
     public void StatePlayerDeath() {
         gameSound.playBangLargeSound(); 
@@ -212,6 +217,7 @@ public class AsteroidsApp extends Application {
         System.out.println(hm.getHighscoreString());    // Debug.
     }
     
+    /**** implemented for 60/2 OOP ****/
     // Reset the game. -- Press R.
     // Clear enemies and return to main menu.
     public void StateReset() {

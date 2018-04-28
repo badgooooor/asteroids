@@ -1,3 +1,4 @@
+/**** implemented for 60/2 OOP ****/
 /*
  * Added enemies -- heal the player on shot.
  */

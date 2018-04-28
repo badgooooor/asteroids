@@ -1,3 +1,4 @@
+/**** implemented for 60/2 OOP ****/
 /*
  * Head-up display for display top player and it's high score -- implemented from TextValueInterface
  */

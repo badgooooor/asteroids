@@ -1,3 +1,4 @@
+/**** implemented for 60/2 OOP ****/
 /*
  * Added class for serving images in game.
  */

@@ -1,3 +1,4 @@
+/**** implemented for 60/2 OOP ****/
 /*
  * The classes is used for getting player's name to fill in the high score.
  */

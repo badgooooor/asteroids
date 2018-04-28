@@ -1,3 +1,4 @@
+/**** implemented for 60/2 OOP ****/
 /*
  * Display text when game is over -- implemented from TextHUDInterface
  */

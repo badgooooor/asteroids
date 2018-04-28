@@ -1,3 +1,4 @@
+/**** implemented for 60/2 OOP ****/
 /*
  * This interface served the classes that is normal head-up display.
  */
