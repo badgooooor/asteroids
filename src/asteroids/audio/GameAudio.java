@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class is for import the sound effects and playing it.
  */
 package asteroids.audio;
 
@@ -11,10 +9,11 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 /**
- *
+ * 
  * @author Babe
  */
 public class GameAudio {
+    // import sound effects and initialize as audioclip.
     private final String shootingPath = "src/res/fire.wav";    
     private final String bangSmallPath = "src/res/bangSmall.wav";
     private final String bangLargePath = "src/res/bangLarge.wav";
@@ -28,7 +27,8 @@ public class GameAudio {
         bangSmallAudio = new AudioClip(new File(bangSmallPath).toURI().toString());
         bangLargeAudio = new AudioClip(new File(bangLargePath).toURI().toString());
     }
-
+    
+    // play each sound.
     public void playShotingSound(){
         shootingAudio.play();
     }

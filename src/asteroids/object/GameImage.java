@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Added class for serving images in game.
  */
 package asteroids.object;
 
@@ -20,7 +18,7 @@ public class GameImage {
     private final Image image;
     private ImageView imageView;
     
-    // Constructors.
+    // Constructors. -- get just normal image path.
     public GameImage(String imageLocation) throws FileNotFoundException {
         this.image = new Image(new FileInputStream(imageLocation));
         this.imageView = new ImageView(image);
@@ -31,6 +29,7 @@ public class GameImage {
         imageView.setPreserveRatio(true);
     }
     
+    // Constructors -- get image path and xy co-ordinate.
     public GameImage(String imageLocation, int x, int y) throws FileNotFoundException {
         this.image = new Image(new FileInputStream(imageLocation));
         this.imageView = new ImageView(image);
@@ -39,6 +38,7 @@ public class GameImage {
         imageView.setY(y);
     }
     
+    // Constructor -- get image path, xy co-ordinate and its size.
     public GameImage(String imageLocation, int x, int y, int width, int height) throws FileNotFoundException {
         this.image = new Image(new FileInputStream(imageLocation));
         this.imageView = new ImageView(image);
@@ -50,11 +50,12 @@ public class GameImage {
         imageView.setFitHeight(height);
     }
     
-    public void show(Pane screen) {
+    // Add image to group or pane.
+    public void add(Pane screen) {
         screen.getChildren().add(imageView);
     }
     
-    public void show(Group group) {
+    public void add(Group group) {
         group.getChildren().add(imageView);
     }
 }

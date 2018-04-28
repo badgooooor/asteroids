@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Head-up display for display top player and it's high score -- implemented from TextValueInterface
  */
 package asteroids.hud;
 
@@ -23,7 +21,8 @@ public class HighScoreHUD implements TextValueInterface{
     private Text tscore;
     private Text tname;
     private VBox vb;
-
+    
+    // Constructor -- set the text up.
     public HighScoreHUD(Score score,int x, int y) {
         this.score = score;
         vb = new VBox();
@@ -52,36 +51,39 @@ public class HighScoreHUD implements TextValueInterface{
         tname.setY(100);
         
         tname.setTranslateX(x);
-        tname.setTranslateY(y+24);
+        tname.setTranslateY(y+12);
     }
     
+    // display the hud.
     public void showHUD() {
-        tscore.setText("HI : " + (int)(score.getValue()));
+        tscore.setText("HIGH : " + (int)(score.getValue()));
         tname.setText("PLAYER : " + (score.getName()));
     }
     
-    @Override
-    public void updateHUD(int valueChange) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    // Overloaded function from updateHUD.
+    public void updateHUD(Score score) {
+        this.score = score;
+        this.showHUD();
     }
-
-    @Override
-    public void show(Pane screen) {
-       screen.getChildren().add(vb);
-    }
-
-    @Override
-    public void reset() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public double getValue() {
         return score.getValue();
     }
     
-    public void updateHUD(Score score) {
-        this.score = score;
-        this.showHUD();
+    @Override
+    public void add(Pane screen) {
+       screen.getChildren().add(vb);
+    }
+    
+    // Unused 
+    @Override
+    public void reset() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void updateHUD(int valueChange) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

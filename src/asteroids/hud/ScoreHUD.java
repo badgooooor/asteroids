@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Head-up display for display current player score. -- implemented from TextValueInterface
  */
 package asteroids.hud;
 
@@ -33,7 +31,7 @@ public class ScoreHUD implements TextValueInterface{
         vb.getChildren().add(tscore);
         
         // Set up
-        tscore.setText("Score : " + (int)(score.getValue()));
+        tscore.setText("SCORE : " + (int)(score.getValue()));
         tscore.setFill(Color.WHITE);
         tscore.setFont(Font.font(null, FontWeight.BOLD, 24));
         
@@ -56,13 +54,14 @@ public class ScoreHUD implements TextValueInterface{
         showHUD();
     }
     
+    // display the player's score.
     @Override
     public void showHUD() {
         tscore.setText("Score : " + (int)(score.getValue()));
     }
     
     @Override
-    public void show(Pane screen) {
+    public void add(Pane screen) {
         screen.getChildren().add(vb);
     }
     

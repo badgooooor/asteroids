@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Player's health -- implemented from ValueInterface.
  */
 package asteroids.health;
 
@@ -11,9 +9,12 @@ import asteroids.interfaceClass.ValueInterface;
  *
  * @author borbier
  */
-public class Health implements ValueInterface{
+public class Health implements ValueInterface {
+    // Player has current health and maximum health.
     private int health;
     private final int maxHealth;
+    
+    // Constructor.
     public Health(int maxHealth) {
         this.health = maxHealth;
         this.maxHealth = maxHealth;

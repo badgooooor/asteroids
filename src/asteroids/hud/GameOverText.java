@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Display text when game is over -- implemented from TextHUDInterface
  */
 package asteroids.hud;
 
@@ -23,6 +21,8 @@ public class GameOverText implements TextHUDInterface{
     private Text finalScoreText;
     private VBox vb;
     private ScoreHUD score;
+    
+    // Constructor -- set the text up.
     public GameOverText(ScoreHUD score) {
         titleText = new Text();
         finalScoreText = new Text();
@@ -32,14 +32,14 @@ public class GameOverText implements TextHUDInterface{
         vb.getChildren().addAll(titleText, finalScoreText);
         
         // Set-up.
-        titleText.setFill(Color.RED);
+        titleText.setFill(Color.WHITE);
         titleText.setFont(Font.font(null, FontWeight.BOLD, 32));
         titleText.setX(0);
         titleText.setY(0);
         titleText.setTranslateX(190);
         titleText.setTranslateY(240);
         
-        finalScoreText.setFill(Color.RED);
+        finalScoreText.setFill(Color.WHITE);
         finalScoreText.setFont(Font.font(null, FontWeight.BOLD, 28));
         finalScoreText.setX(0);
         finalScoreText.setY(0);
@@ -47,17 +47,20 @@ public class GameOverText implements TextHUDInterface{
         finalScoreText.setTranslateY(270);
     }
     
+    // add the text to screen.
     @Override
     public void show(Pane screen) {
         screen.getChildren().add(vb);
     }
     
+    // show the text.
     @Override
     public void display() {
-        titleText.setText("GAME OVER");
+        titleText.setText("GAME OVER.");
         finalScoreText.setText(score.getScore().getName()+"'s score : " + score.getValue());
     }
     
+    // remove the text.
     @Override
     public void remove() {
         titleText.setText("");
